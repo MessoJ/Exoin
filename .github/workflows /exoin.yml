@@ -1,0 +1,29 @@
+name: Unzip Exoinafrica
+
+on:
+  workflow_dispatch: # Allows you to run the workflow manually
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Unzip Exoinafrica.zip
+        run: |
+          unzip Exoinafrica.zip -d Exoinafrica-unzipped
+          
+      - name: List files
+        run: ls -R Exoinafrica-unzipped
+
+      # Optional: Add, commit, and push the extracted files back to the repo
+      - name: Commit and push extracted files
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add Exoinafrica-unzipped
+          git commit -m "Unzip Exoinafrica.zip"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
